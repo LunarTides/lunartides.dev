@@ -23,5 +23,6 @@ lunartides.dev {
 		dns cloudflare {env.CLOUDFLARE_API_TOKEN}
 	}
 
-	respond "OK"
+	root * /var/www/website
+	file_server
 }

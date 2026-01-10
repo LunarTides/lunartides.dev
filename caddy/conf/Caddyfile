@@ -10,17 +10,38 @@ bw.cloud.lunartides.dev {
 cloud.lunartides.dev {
 	tls {
 		# Temporarily use cloudflare dns.
-		dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+		dns cloudflare {$CLOUDFLARE_API_TOKEN}
 	}
 
 	# reverse_proxy http://nextcloud-aio-domaincheck:11000
 	reverse_proxy http://nextcloud-aio-apache:11000
 }
 
+hs.lunartides.dev {
+	tls {
+		# Temporarily use cloudflare dns.
+		dns cloudflare {$CLOUDFLARE_API_TOKEN}
+	}
+
+	@registry path_regexp registry ^/registry(/.*)?$
+	handle @registry {
+		# basic_auth {
+		# 	admin {$REGISTRY_PASSWORD_HASH}
+		# }
+		reverse_proxy http://registry-frontend:80
+	}
+
+	handle {
+		root * /var/www/docs
+		try_files {path} {path}/index.html =404
+		file_server
+	}
+}
+
 lunartides.dev {
 	tls {
 		# Temporarily use cloudflare dns.
-		dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+		dns cloudflare {$CLOUDFLARE_API_TOKEN}
 	}
 
 	root * /var/www/website

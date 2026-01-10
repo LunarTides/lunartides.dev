@@ -1,0 +1,26 @@
+services:
+  caddy:
+    image: mycaddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    env_file:
+      - .env
+    volumes:
+      - ./caddy/conf:/etc/caddy
+      - caddy_data:/data
+      - caddy_config:/config
+    mem_limit: 256m
+    cpu_shares: 512
+    networks:
+      - caddy
+      - nextcloud-aio
+networks:
+  caddy:
+    name: caddy
+  nextcloud-aio:
+    external: true
+volumes:
+  caddy_data:
+  caddy_config:

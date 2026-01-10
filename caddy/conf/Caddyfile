@@ -1,0 +1,27 @@
+{
+	# Get production certificate. Remove in staging.
+	# acme_ca https://acme-v02.api.letsencrypt.org/directory
+}
+
+bw.cloud.lunartides.dev {
+	reverse_proxy http://nextcloud-aio-vaultwarden:8812
+}
+
+cloud.lunartides.dev {
+	tls {
+		# Temporarily use cloudflare dns.
+		dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+	}
+
+	# reverse_proxy http://nextcloud-aio-domaincheck:11000
+	reverse_proxy http://nextcloud-aio-apache:11000
+}
+
+lunartides.dev {
+	tls {
+		# Temporarily use cloudflare dns.
+		dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+	}
+
+	respond "OK"
+}

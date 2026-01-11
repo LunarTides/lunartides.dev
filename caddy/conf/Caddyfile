@@ -17,6 +17,17 @@ cloud.lunartides.dev {
 	reverse_proxy http://nextcloud-aio-apache:11000
 }
 
+vault.lunartides.dev {
+	tls {
+		# Temporarily use cloudflare dns.
+		dns cloudflare {$CLOUDFLARE_API_TOKEN}
+	}
+
+	reverse_proxy vaultwarden:80 {
+		header_up X-Real-IP {remote_host}
+	}
+}
+
 hs.lunartides.dev {
 	tls {
 		# Temporarily use cloudflare dns.

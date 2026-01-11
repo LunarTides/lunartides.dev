@@ -12,18 +12,21 @@ services:
       - caddy_data:/data
       - caddy_config:/config
       - docs:/var/www/docs
-    mem_limit: 256m
-    cpu_shares: 512
+    # mem_limit: 256m
+    # cpu_shares: 512
     networks:
       - caddy
       - nextcloud-aio
       - hsjs
+      - vaultwarden
 networks:
   caddy:
     name: caddy
   nextcloud-aio:
     external: true
   hsjs:
+    external: true
+  vaultwarden:
     external: true
 volumes:
   caddy_data:

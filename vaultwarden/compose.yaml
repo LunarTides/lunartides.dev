@@ -1,0 +1,16 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    environment:
+      DOMAIN: "https://vault.lunartides.dev"
+    env_file:
+      - .env
+    volumes:
+      - ./vw-data/:/data/
+    networks:
+      - vaultwarden
+networks:
+  vaultwarden:
+    name: vaultwarden

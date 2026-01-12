@@ -3,8 +3,51 @@
 	# acme_ca https://acme-v02.api.letsencrypt.org/directory
 }
 
-bw.cloud.lunartides.dev {
-	reverse_proxy http://nextcloud-aio-vaultwarden:8812
+(@deny-blocked) {
+	# Only allow the whitelisted ip.
+	@denied not header X-Forwarded-For {$WHITELISTED_IP}
+
+	handle @denied {
+		header Content-Type text/html
+		respond <<HTML
+			<html>
+				<head>
+					<title>Access Denied</title>
+					<style>
+						body {
+							background-color: black;
+						}
+
+						p {
+							color: white;
+							font-size: 3rem;
+						}
+
+						a {
+							text-decoration: none;
+							color: black;
+							padding: 1rem 3rem 1rem 3rem;
+							font-size: 2rem;
+							background-color: #ccc;
+							border-radius: 8px;
+						}
+
+						a:hover {
+							background-color: #fff;
+						}
+
+						a:active {
+							background-color: #999;
+						}
+					</style>
+				</head>
+				<body>
+						<p>You are not allowed access to this site. Sorry about that!</p>
+						<a href="https://lunartides.dev">Back</a>
+				</body>
+			</html>
+			HTML 403
+	}
 }
 
 cloud.lunartides.dev {
@@ -12,6 +55,8 @@ cloud.lunartides.dev {
 		# Temporarily use cloudflare dns.
 		dns cloudflare {$CLOUDFLARE_API_TOKEN}
 	}
+
+	import @deny-blocked
 
 	# reverse_proxy http://nextcloud-aio-domaincheck:11000
 	reverse_proxy http://nextcloud-aio-apache:11000
@@ -21,6 +66,10 @@ vault.lunartides.dev {
 	tls {
 		# Temporarily use cloudflare dns.
 		dns cloudflare {$CLOUDFLARE_API_TOKEN}
+	}
+
+	handle /admin* {
+		import @deny-blocked
 	}
 
 	reverse_proxy vaultwarden:80 {
@@ -36,9 +85,52 @@ hs.lunartides.dev {
 
 	@registry path_regexp registry ^/registry(/.*)?$
 	handle @registry {
-		# basic_auth {
-		# 	admin {$REGISTRY_PASSWORD_HASH}
-		# }
+		# TODO: Remove once the registry is stable.
+		# Only allow the whitelisted ip.
+		@denied not header X-Forwarded-For {$WHITELISTED_IP}
+
+		handle @denied {
+			header Content-Type text/html
+			respond <<HTML
+				<html>
+					<head>
+						<title>Access Denied</title>
+						<style>
+							body {
+								background-color: black;
+							}
+
+							p {
+								color: white;
+								font-size: 3rem;
+							}
+
+							a {
+								text-decoration: none;
+								color: black;
+								padding: 1rem 3rem 1rem 3rem;
+								font-size: 2rem;
+								background-color: #ccc;
+								border-radius: 8px;
+							}
+
+							a:hover {
+								background-color: #fff;
+							}
+
+							a:active {
+								background-color: #999;
+							}
+						</style>
+					</head>
+					<body>
+							<p>The registry is not yet finished. Sorry about that!</p>
+							<a href='https://hs.lunartides.dev'>Back</a>
+					</body>
+				</html>
+				HTML 403
+		}
+
 		reverse_proxy http://registry-frontend:80
 	}
 

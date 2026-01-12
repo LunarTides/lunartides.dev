@@ -19,6 +19,19 @@ services:
       - nextcloud-aio
       - hsjs
       - vaultwarden
+  minecraft:
+    image: marctv/minecraft-papermc-server:1.21.10
+    restart: unless-stopped
+    container_name: minecraft-server
+    environment:
+      MEMORYSIZE: "1G"
+      PAPERMC_FLAGS: ""
+    volumes:
+      - ./minecraft:/data
+    ports:
+      - 25565:25565
+    stdin_open: true
+    tty: true
 networks:
   caddy:
     name: caddy

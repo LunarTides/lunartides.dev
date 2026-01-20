@@ -90,45 +90,10 @@ hs.lunartides.dev {
 		@denied not header X-Forwarded-For {$WHITELISTED_IP}
 
 		handle @denied {
-			header Content-Type text/html
-			respond <<HTML
-				<html>
-					<head>
-						<title>Access Denied</title>
-						<style>
-							body {
-								background-color: black;
-							}
-
-							p {
-								color: white;
-								font-size: 3rem;
-							}
-
-							a {
-								text-decoration: none;
-								color: black;
-								padding: 1rem 3rem 1rem 3rem;
-								font-size: 2rem;
-								background-color: #ccc;
-								border-radius: 8px;
-							}
-
-							a:hover {
-								background-color: #fff;
-							}
-
-							a:active {
-								background-color: #999;
-							}
-						</style>
-					</head>
-					<body>
-							<p>The registry is not yet finished. Sorry about that!</p>
-							<a href='https://hs.lunartides.dev'>Back</a>
-					</body>
-				</html>
-				HTML 403
+			# Send the request to the `registry-blocked` page in the docs.
+			root * /var/www/docs
+			try_files registry-blocked registry-blocked/index.html =404
+			file_server
 		}
 
 		reverse_proxy http://registry-frontend:80

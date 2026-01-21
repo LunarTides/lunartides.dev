@@ -19,6 +19,34 @@ services:
       - nextcloud-aio
       - hsjs
       - vaultwarden
+  pihole:
+    image: pihole/pihole:latest
+    restart: unless-stopped
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "2000:80/tcp"
+      - "2001:443/tcp"
+      - "67:67/udp"
+      - "123:123/udp"
+    dns:
+      - 127.0.0.1
+      - 1.1.1.1
+      - 1.0.0.1
+      - 8.8.8.8
+      - 8.8.4.4
+    environment:
+      TZ: "Europe/Oslo"
+      FTLCONF_dns_upstreams: 1.1.1.1;8.8.8.8;8.8.4.4
+
+      FTLCONF_webserver_api_password: ${PIHOLE_ADMIN_PASSWORD}
+      FTLCONF_dns_listeningMode: 'ALL'
+    volumes:
+      - ./etc-pihole/:/etc/piehole
+    cap_add:
+      - NET_ADMIN
+      - SYS_TIME
+      - SYS_NICE
   minecraft:
     image: marctv/minecraft-papermc-server:1.21.10
     restart: unless-stopped

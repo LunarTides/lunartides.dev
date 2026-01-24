@@ -1,5 +1,6 @@
 services:
-  caddy:
+  outer-caddy:
+    container_name: outer-caddy
     image: mycaddy
     restart: unless-stopped
     ports:
@@ -8,15 +9,36 @@ services:
     env_file:
       - .env
     volumes:
-      - ./caddy/conf:/etc/caddy
-      - caddy_data:/data
-      - caddy_config:/config
+      - ./outer-caddy/conf:/etc/caddy
+      - outer_caddy_data:/data
+      - outer_caddy_config:/config
+    # mem_limit: 256m
+    # cpu_shares: 512
+    networks:
+      - caddy
+  anubis:
+    image: ghcr.io/techarohq/anubis:latest
+    pull_policy: always
+    environment:
+      BIND: ":3000"
+      TARGET: http://inner-caddy
+    networks:
+      - caddy
+  inner-caddy:
+    container_name: inner-caddy
+    image: mycaddy
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ./inner-caddy/conf:/etc/caddy
+      - inner_caddy_data:/data
+      - inner_caddy_config:/config
       - docs:/var/www/docs
     # mem_limit: 256m
     # cpu_shares: 512
     networks:
       - caddy
-      - nextcloud-aio
       - hsjs
       - vaultwarden
   pihole:
@@ -40,7 +62,7 @@ services:
       FTLCONF_dns_upstreams: 1.1.1.1;8.8.8.8;8.8.4.4
 
       FTLCONF_webserver_api_password: ${PIHOLE_ADMIN_PASSWORD}
-      FTLCONF_dns_listeningMode: 'ALL'
+      FTLCONF_dns_listeningMode: "ALL"
     volumes:
       - ./etc-pihole/:/etc/piehole
     cap_add:
@@ -70,7 +92,9 @@ networks:
   vaultwarden:
     external: true
 volumes:
-  caddy_data:
-  caddy_config:
+  outer_caddy_data:
+  outer_caddy_config:
+  inner_caddy_data:
+  inner_caddy_config:
   docs:
     external: true

@@ -1,6 +1,5 @@
 {
-	# Get production certificate. Remove in staging.
-	# acme_ca https://acme-v02.api.letsencrypt.org/directory
+  auto_https off
 }
 
 (@deny-blocked) {
@@ -50,24 +49,7 @@
 	}
 }
 
-cloud.lunartides.dev {
-	tls {
-		# Temporarily use cloudflare dns.
-		dns cloudflare {$CLOUDFLARE_API_TOKEN}
-	}
-
-	import @deny-blocked
-
-	# reverse_proxy http://nextcloud-aio-domaincheck:11000
-	reverse_proxy http://nextcloud-aio-apache:11000
-}
-
-vault.lunartides.dev {
-	tls {
-		# Temporarily use cloudflare dns.
-		dns cloudflare {$CLOUDFLARE_API_TOKEN}
-	}
-
+vault.lunartides.dev:80 {
 	handle /admin* {
 		import @deny-blocked
 	}
@@ -77,12 +59,7 @@ vault.lunartides.dev {
 	}
 }
 
-hs.lunartides.dev {
-	tls {
-		# Temporarily use cloudflare dns.
-		dns cloudflare {$CLOUDFLARE_API_TOKEN}
-	}
-
+hs.lunartides.dev:80 {
 	@registry path_regexp registry ^/registry(/.*)?$
 	handle @registry {
 		# TODO: Remove once the registry is stable.
@@ -106,12 +83,7 @@ hs.lunartides.dev {
 	}
 }
 
-lunartides.dev {
-	tls {
-		# Temporarily use cloudflare dns.
-		dns cloudflare {$CLOUDFLARE_API_TOKEN}
-	}
-
+lunartides.dev:80 {
 	root * /var/www/website
 	file_server
 }

@@ -1,7 +1,7 @@
 services:
   outer-caddy:
     container_name: outer-caddy
-    image: mycaddy
+    image: caddy:2.11
     restart: unless-stopped
     ports:
       - "80:80"
@@ -17,7 +17,7 @@ services:
     networks:
       - caddy
   anubis:
-    image: ghcr.io/techarohq/anubis:latest
+    image: ghcr.io/techarohq/anubis:v1.24.0
     pull_policy: always
     environment:
       BIND: ":3000"
@@ -42,7 +42,7 @@ services:
       - hsjs
       - vaultwarden
   pihole:
-    image: pihole/pihole:latest
+    image: pihole/pihole:2025.11.1
     restart: unless-stopped
     ports:
       - "53:53/tcp"

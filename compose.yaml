@@ -1,7 +1,7 @@
 services:
   outer-caddy:
     container_name: outer-caddy
-    image: caddy:2.11
+    image: outer-caddy
     restart: unless-stopped
     ports:
       - "80:80"
@@ -26,7 +26,7 @@ services:
       - caddy
   inner-caddy:
     container_name: inner-caddy
-    image: mycaddy
+    image: inner-caddy
     restart: unless-stopped
     env_file:
       - .env

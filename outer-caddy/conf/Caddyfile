@@ -4,6 +4,10 @@
 }
 
 lunartides.dev {
+  tls {
+    dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+  }
+
   handle_path /.within.website/x/cmd/anubis/* {
     reverse_proxy http://anubis:3000 {
       header_up X-Real-Ip {remote_host}
@@ -17,6 +21,10 @@ lunartides.dev {
 }
 
 hs.lunartides.dev {
+  tls {
+    dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+  }
+
   # Doesn't work
   handle_path /.within.website/x/cmd/anubis/* {
     reverse_proxy http://anubis:3000 {
@@ -31,6 +39,10 @@ hs.lunartides.dev {
 }
 
 vault.lunartides.dev {
+  tls {
+    dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+  }
+
   handle_path /.within.website/x/cmd/anubis/* {
     reverse_proxy http://anubis:3000 {
       header_up X-Real-Ip {remote_host}

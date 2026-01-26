@@ -1,45 +1,35 @@
 {
 	# Get staging certificate. Remove in production.
-	acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+	#acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 
 lunartides.dev {
-  handle_path /.within.website/x/cmd/anubis/* {
-    reverse_proxy http://anubis:3000 {
-      header_up X-Real-Ip {remote_host}
-      header_up X-Http-Version {http.request.proto}
-      header_up X-Forwarded-Proto https
-      header_up Forwarded "for={remote_host};proto=https"
-    }
+  reverse_proxy http://anubis:3000 {
+    header_up Host {host}
+    header_up X-Real-Ip {remote_host}
+    header_up X-Http-Version {http.request.proto}
+    header_up X-Forwarded-Proto https
+    header_up Forwarded "for={remote_host};proto=https"
   }
-
-  reverse_proxy http://inner-caddy:80
 }
 
 hs.lunartides.dev {
-  # Doesn't work
-  handle_path /.within.website/x/cmd/anubis/* {
-    reverse_proxy http://anubis:3000 {
-      header_up X-Real-Ip {remote_host}
-      header_up X-Http-Version {http.request.proto}
-      header_up X-Forwarded-Proto https
-      header_up Forwarded "for={remote_host};proto=https"
-    }
+  reverse_proxy http://anubis:3000 {
+    header_up Host {host}
+    header_up X-Real-Ip {remote_host}
+    header_up X-Http-Version {http.request.proto}
+    header_up X-Forwarded-Proto https
+    header_up Forwarded "for={remote_host};proto=https"
   }
-
-  reverse_proxy http://inner-caddy:80
 }
 
 vault.lunartides.dev {
-  handle_path /.within.website/x/cmd/anubis/* {
-    reverse_proxy http://anubis:3000 {
-      header_up X-Real-Ip {remote_host}
-      header_up X-Http-Version {http.request.proto}
-      header_up X-Forwarded-Proto https
-      header_up Forwarded "for={remote_host};proto=https"
-    }
+  reverse_proxy http://anubis:3000 {
+    header_up Host {host}
+    header_up X-Real-Ip {remote_host}
+    header_up X-Http-Version {http.request.proto}
+    header_up X-Forwarded-Proto https
+    header_up Forwarded "for={remote_host};proto=https"
   }
-
-  reverse_proxy http://inner-caddy:80
 }
 

@@ -1,3 +1,3 @@
 #/bin/bash
-docker build -t mycaddy -f ./caddy/Dockerfile .
+docker build -t inner-caddy -f ./inner-caddy/Dockerfile .
 docker compose up -d

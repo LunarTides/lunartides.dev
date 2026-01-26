@@ -24,12 +24,7 @@ hs.lunartides.dev {
 }
 
 vault.lunartides.dev {
-  reverse_proxy http://anubis:3000 {
-    header_up Host {host}
-    header_up X-Real-Ip {remote_host}
-    header_up X-Http-Version {http.request.proto}
-    header_up X-Forwarded-Proto https
-    header_up Forwarded "for={remote_host};proto=https"
-  }
+  # Don't use anubis when accessing vault. This makes the Bitwarden addon fail. 
+  reverse_proxy http://inner-caddy:80
 }
 

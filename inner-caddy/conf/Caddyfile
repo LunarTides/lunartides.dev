@@ -4,7 +4,7 @@
 
 (@deny-blocked) {
 	# Only allow the whitelisted ip.
-	@denied not header X-Forwarded-For {$WHITELISTED_IP}
+	@denied not header X-Real-IP {$WHITELISTED_IP}
 
 	handle @denied {
 		header Content-Type text/html
@@ -64,7 +64,7 @@ hs.lunartides.dev:80 {
 	handle @registry {
 		# TODO: Remove once the registry is stable.
 		# Only allow the whitelisted ip.
-		@denied not header X-Forwarded-For {$WHITELISTED_IP}
+		@denied not header X-Real-IP {$WHITELISTED_IP}
 
 		handle @denied {
 			# Send the request to the `registry-blocked` page in the docs.

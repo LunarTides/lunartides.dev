@@ -63,9 +63,9 @@ hs.lunartides.dev:80 {
 	@registry path_regexp registry ^/registry(/.*)?$
 	handle @registry {
 		# TODO: Remove once the registry is stable.
-		basic_auth {
-			{$CADDY_AUTH_USER} {$CADDY_AUTH_PASSWORD_HASH}
-		}
+		#basic_auth {
+		#	{$CADDY_AUTH_USER} {$CADDY_AUTH_PASSWORD_HASH}
+		#}
 
 		# Only allow the whitelisted ip.
 		#@denied not header X-Real-IP {$WHITELISTED_IP}

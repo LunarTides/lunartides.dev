@@ -1,5 +1,8 @@
 {
   auto_https off
+  servers {
+	trusted_proxies static private_ranges
+  }
 }
 
 (@deny-blocked) {
@@ -49,7 +52,8 @@
 	}
 }
 
-vault.lunartides.dev:80 {
+http://vault.lunartides.dev {
+	encode
 	handle /admin* {
 		import @deny-blocked
 	}
@@ -59,7 +63,7 @@ vault.lunartides.dev:80 {
 	}
 }
 
-hs.lunartides.dev:80 {
+http://hs.lunartides.dev {
 	@registry path_regexp registry ^/registry(/.*)?$
 	handle @registry {
 		# TODO: Remove once the registry is stable.
@@ -81,6 +85,7 @@ hs.lunartides.dev:80 {
 	}
 
 	handle {
+		encode
 		root * /var/www/docs
 		try_files {path} {path}/index.html =404
 		file_server
@@ -88,6 +93,7 @@ hs.lunartides.dev:80 {
 }
 
 lunartides.dev:80 {
+	encode
 	root * /var/www/website
 	file_server
 }

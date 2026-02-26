@@ -24,7 +24,6 @@ hs.lunartides.dev {
 }
 
 vault.lunartides.dev {
-  # Don't use anubis when accessing vault. This makes the Bitwarden addon fail. 
+  # Don't use anubis when accessing vault. This makes the Bitwarden addon fail.
   reverse_proxy http://inner-caddy:80
 }
-

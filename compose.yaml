@@ -1,7 +1,7 @@
 services:
-  outer-caddy:
-    container_name: outer-caddy
-    image: caddy:2.11
+  caddy:
+    container_name: caddy
+    image: my-caddy
     restart: unless-stopped
     ports:
       - "80:80"
@@ -10,31 +10,9 @@ services:
     env_file:
       - .env
     volumes:
-      - ./outer-caddy/conf:/etc/caddy
-      - outer_caddy_data:/data
-      - outer_caddy_config:/config
-    # mem_limit: 256m
-    # cpu_shares: 512
-    networks:
-      - caddy
-  anubis:
-    image: ghcr.io/techarohq/anubis:v1.24.0
-    pull_policy: always
-    environment:
-      BIND: ":3000"
-      TARGET: http://inner-caddy
-    networks:
-      - caddy
-  inner-caddy:
-    container_name: inner-caddy
-    image: inner-caddy
-    restart: unless-stopped
-    env_file:
-      - .env
-    volumes:
-      - ./inner-caddy/conf:/etc/caddy
-      - inner_caddy_data:/data
-      - inner_caddy_config:/config
+      - ./caddy/conf:/etc/caddy
+      - caddy_data:/data
+      - caddy_config:/config
       - docs:/var/www/docs
     # mem_limit: 256m
     # cpu_shares: 512
@@ -42,6 +20,14 @@ services:
       - caddy
       - hsjs
       - vaultwarden
+  anubis:
+    image: ghcr.io/techarohq/anubis:v1.24.0
+    pull_policy: always
+    environment:
+      BIND: ":3000"
+      TARGET: http://caddy:8080
+    networks:
+      - caddy
   pihole:
     image: pihole/pihole:2025.11.1
     restart: unless-stopped
@@ -86,16 +72,12 @@ services:
 networks:
   caddy:
     name: caddy
-  nextcloud-aio:
-    external: true
   hsjs:
     external: true
   vaultwarden:
     external: true
 volumes:
-  outer_caddy_data:
-  outer_caddy_config:
-  inner_caddy_data:
-  inner_caddy_config:
+  caddy_data:
+  caddy_config:
   docs:
     external: true

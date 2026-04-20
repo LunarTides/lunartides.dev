@@ -1,7 +1,22 @@
 services:
+  website-builder:
+    container_name: website-builder
+    image: oven/bun:1
+    working_dir: /app
+    volumes:
+      - ./website:/app
+      - website-dist:/app/dist
+    command: >
+      sh -c "
+        cd /app &&
+        bun install &&
+        bun run build
+      "
+    networks:
+      - caddy
   caddy:
     container_name: caddy
-    image: my-caddy
+    image: caddy:2.11
     restart: unless-stopped
     ports:
       - "80:80"
@@ -13,6 +28,8 @@ services:
       - ./caddy/conf:/etc/caddy
       - caddy_data:/data
       - caddy_config:/config
+
+      - website-dist:/var/www/website:ro
       - docs:/var/www/docs
     # mem_limit: 256m
     # cpu_shares: 512
@@ -56,19 +73,6 @@ services:
       - NET_ADMIN
       - SYS_TIME
       - SYS_NICE
-  minecraft:
-    image: marctv/minecraft-papermc-server:1.21.10
-    restart: unless-stopped
-    container_name: minecraft-server
-    environment:
-      MEMORYSIZE: "1G"
-      PAPERMC_FLAGS: ""
-    volumes:
-      - ./minecraft:/data
-    ports:
-      - 25565:25565
-    stdin_open: true
-    tty: true
 networks:
   caddy:
     name: caddy
@@ -79,5 +83,6 @@ networks:
 volumes:
   caddy_data:
   caddy_config:
+  website-dist:
   docs:
     external: true

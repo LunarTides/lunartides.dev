@@ -10,7 +10,7 @@ services:
     volumes:
       - ./vw-data/:/data/
     networks:
-      - vaultwarden
+      - caddy
 networks:
-  vaultwarden:
-    name: vaultwarden
+  caddy:
+    external: true

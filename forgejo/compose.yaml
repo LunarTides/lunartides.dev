@@ -1,0 +1,19 @@
+services:
+  server:
+    image: codeberg.org/forgejo/forgejo:15
+    container_name: forgejo
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+    restart: always
+    networks:
+      - forgejo
+      - caddy
+    volumes:
+      - ./data:/data
+      - /etc/localtime:/etc/localtime:ro
+networks:
+  forgejo:
+    external: false
+  caddy:
+    external: true

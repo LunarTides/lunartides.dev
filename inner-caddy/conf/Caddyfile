@@ -92,6 +92,16 @@ http://hs.lunartides.dev {
 	}
 }
 
+http://git.lunartides.dev {
+	encode
+
+    # Use port 3000 when setting up.
+	#reverse_proxy forgejo:3000 {
+	reverse_proxy forgejo:80 {
+		header_up X-Real-IP {remote_host}
+	}
+}
+
 lunartides.dev:80 {
 	encode
 	root * /var/www/website

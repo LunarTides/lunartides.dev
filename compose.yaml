@@ -38,6 +38,7 @@ services:
       - hsjs
   anubis:
     image: ghcr.io/techarohq/anubis:v1.24.0
+    restart: unless-stopped
     pull_policy: always
     environment:
       BIND: ":3000"

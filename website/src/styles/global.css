@@ -1,0 +1,78 @@
+@import "tailwindcss";
+@import "@catppuccin/tailwindcss/frappe.css";
+
+code {
+	font-family: monospace;
+	font-size: 1.25em;
+	@apply bg-ctp-base;
+}
+
+/* https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md */
+.bg-primary {
+	@apply bg-ctp-base;
+}
+
+.bg-secondary {
+	/* Choose one */
+	@apply bg-ctp-crust;
+	/*@apply bg-ctp-mantle;*/
+}
+
+.surface-0 {
+	@apply bg-ctp-surface0;
+}
+.surface-1 {
+	@apply bg-ctp-surface1;
+}
+.surface-2 {
+	@apply bg-ctp-surface2;
+}
+
+.overlay-0 {
+	@apply bg-ctp-overlay0;
+}
+.overlay-1 {
+	@apply bg-ctp-overlay1;
+}
+.overlay-2 {
+	@apply bg-ctp-overlay2;
+}
+
+.hint {
+	@apply text-ctp-overlay1;
+}
+.success {
+	@apply text-ctp-green;
+}
+.warning {
+	@apply text-ctp-yellow;
+}
+.error {
+	@apply text-ctp-red;
+}
+
+.text-tag,
+.text-pill {
+	@apply text-ctp-blue;
+}
+.bg-tag,
+.bg-pill {
+	@apply bg-ctp-blue;
+}
+
+p,
+h1 {
+	@apply text-ctp-text;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+	@apply text-ctp-subtext0;
+}
+
+a {
+	@apply text-ctp-blue;
+}

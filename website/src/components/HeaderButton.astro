@@ -1,0 +1,7 @@
+---
+const { href } = Astro.props;
+const page = Astro.url.pathname;
+---
+
+<!-- biome-ignore lint/a11y/useAnchorContent: the slot component describes the link. this is likely a biome/astro compatability issue. -->
+<a {href} class={`px-2 py-1 rounded-xs ${page === href ? "bg-ctp-base translate-y-0.5" : "bg-ctp-mantle"}`}><slot /></a>

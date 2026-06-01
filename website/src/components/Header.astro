@@ -1,0 +1,39 @@
+---
+import "./HeaderButton.astro";
+import HeaderButton from "./HeaderButton.astro";
+---
+
+<!-- TODO: Add a theme switcher (latte) -->
+<header class="bg-secondary p-2 flex gap-2">
+    <HeaderButton href="/">home</HeaderButton>
+    <HeaderButton href="/projects">projects</HeaderButton>
+    <HeaderButton href="/contact">contact</HeaderButton>
+
+    <button type="button" data-day-night-switcher class="ml-auto mx-2">
+        <p>day/night</p>
+    </button>
+</header>
+
+<script>
+  const themeSwitcher = document.querySelector("[data-day-night-switcher]");
+  const body = document.body;
+
+  // Automatically load theme on document load.
+  // FIXME: Light theme flickers on load.
+  const theme = window.localStorage.getItem("theme");
+  if (theme === "light") {
+    body.classList.add("latte");
+  }
+
+  themeSwitcher?.addEventListener("click", () => {
+    const isDay = body.classList.contains("latte");
+
+    if (isDay) {
+      body.classList.remove("latte");
+      window.localStorage.setItem("theme", "dark");
+    } else {
+      body.classList.add("latte");
+      window.localStorage.setItem("theme", "light");
+    }
+  });
+</script>

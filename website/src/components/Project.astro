@@ -1,0 +1,10 @@
+---
+const { href, title } = Astro.props;
+---
+
+<!-- biome-ignore lint/a11y/useAnchorContent: the title prop fixes this i think -->
+<a {href} {title} target="_blank">
+    <div class="bg-ctp-mantle p-5 h-full rounded-xl">
+        <slot />
+    </div>
+</a>

@@ -1,0 +1,13 @@
+# unknown bots should be blocked. the subdomains have different robots.txt rules
+User-agent: *
+Disallow: /
+
+# allow known search engine bots to crawl the site
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: DuckDuckBot
+User-agent: Yandex
+User-agent: Baiduspider
+User-agent: Applebot
+User-agent: BraveBot
+Allow: /

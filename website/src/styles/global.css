@@ -1,12 +1,6 @@
 @import "tailwindcss";
 @import "@catppuccin/tailwindcss/frappe.css";
 
-code {
-	font-family: monospace;
-	font-size: 1.25em;
-	@apply bg-ctp-base;
-}
-
 /* https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md */
 .bg-primary {
 	@apply bg-ctp-base;
@@ -75,4 +69,10 @@ h6 {
 
 a {
 	@apply text-ctp-blue;
+}
+
+code {
+	font-family: monospace;
+	font-size: 1.25em;
+	@apply bg-ctp-base;
 }

@@ -1,5 +1,4 @@
 ---
-import "./HeaderButton.astro";
 import HeaderButton from "./HeaderButton.astro";
 ---
 
@@ -14,25 +13,23 @@ import HeaderButton from "./HeaderButton.astro";
 </header>
 
 <script>
-  const themeSwitcher = document.querySelector("[data-day-night-switcher]");
-  const body = document.body;
-
   // Automatically load theme on document load.
   // FIXME: Light theme flickers on load. (doesn't happen in prod thankfully)
-  const theme = window.localStorage.getItem("theme");
+  const theme = localStorage.getItem("theme");
   if (theme === "light") {
-    body.classList.add("latte");
+    document.body.classList.add("latte");
   }
 
+  const themeSwitcher = document.querySelector("[data-day-night-switcher]");
   themeSwitcher?.addEventListener("click", () => {
-    const isDay = body.classList.contains("latte");
+    const isDay = document.body.classList.contains("latte");
 
     if (isDay) {
-      body.classList.remove("latte");
-      window.localStorage.setItem("theme", "dark");
+      document.body.classList.remove("latte");
+      localStorage.setItem("theme", "dark");
     } else {
-      body.classList.add("latte");
-      window.localStorage.setItem("theme", "light");
+      document.body.classList.add("latte");
+      localStorage.setItem("theme", "light");
     }
   });
 </script>

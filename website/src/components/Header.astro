@@ -13,23 +13,37 @@ import HeaderButton from "./HeaderButton.astro";
 </header>
 
 <script>
-  // Automatically load theme on document load.
-  // FIXME: Light theme flickers on load. (doesn't happen in prod thankfully)
-  const theme = localStorage.getItem("theme");
-  if (theme === "light") {
-    document.body.classList.add("latte");
-  }
-
-  const themeSwitcher = document.querySelector("[data-day-night-switcher]");
-  themeSwitcher?.addEventListener("click", () => {
-    const isDay = document.body.classList.contains("latte");
-
-    if (isDay) {
+  function setTheme(theme: "dark" | "light") {
+    if (theme === "dark") {
       document.body.classList.remove("latte");
+      document.body.classList.add("frappe");
       localStorage.setItem("theme", "dark");
     } else {
+      document.body.classList.remove("frappe");
       document.body.classList.add("latte");
       localStorage.setItem("theme", "light");
     }
+  }
+
+  // Automatically load theme on document load.
+  // FIXME: Light theme flickers on load. (doesn't happen in prod thankfully)
+  const theme = localStorage.getItem("theme");
+  if (theme) {
+    setTheme(theme as any);
+  } else {
+    // No theme in local storage.
+    // Base the theme on the user's preferred color scheme.
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      setTheme("dark");
+    } else {
+      setTheme("light");
+    }
+  }
+
+  // Switch themes when clicking the theme switcher button.
+  const themeSwitcher = document.querySelector("[data-day-night-switcher]");
+  themeSwitcher?.addEventListener("click", () => {
+    const isDay = document.body.classList.contains("latte");
+    setTheme(isDay ? "dark" : "light");
   });
 </script>
